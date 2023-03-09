@@ -1,0 +1,23 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: php-apache
+  namespace: staging
+  annotations:
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: ip
+    alb.ingress.kubernetes.io/subnets: private-us-east-1a, private-us-east-1b
+spec:
+  ingressClasName: alb
+  rules:
+    - host: php-apache.example.com
+      http:
+        paths:
+          - path: /
+            pathType: Exact
+            backend:
+              service:
+                name: php-apache
+                port:
+                  number: 80
